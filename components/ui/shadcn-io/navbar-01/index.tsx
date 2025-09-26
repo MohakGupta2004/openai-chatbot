@@ -19,7 +19,7 @@ import { cn } from '@/lib/utils';
 // Simple logo component for the navbar
 const Logo = (props: React.SVGAttributes<SVGElement>) => {
   return (
-    <svg width='1em' height='1em' viewBox='0 0 324 323' fill='currentColor' xmlns='http://www.w3.org/2000/svg' {...props}>
+     <svg width='1em' height='1em' viewBox='0 0 324 323' fill='currentColor' xmlns='http://www.w3.org/2000/svg' {...props}>
       <rect
         x='88.1023'
         y='144.792'
@@ -93,10 +93,6 @@ export interface Navbar01Props extends React.HTMLAttributes<HTMLElement> {
 
 // Default navigation links
 const defaultNavigationLinks: Navbar01NavLink[] = [
-  { href: '#', label: 'Home', active: true },
-  { href: '#features', label: 'Features' },
-  { href: '#pricing', label: 'Pricing' },
-  { href: '#about', label: 'About' },
 ];
 
 export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
@@ -106,9 +102,9 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
       logo = <Logo />,
       logoHref = '#',
       navigationLinks = defaultNavigationLinks,
-      signInText = 'Sign In',
+      signInText = '',
       signInHref = '#signin',
-      ctaText = 'Get Started',
+      ctaText = '',
       ctaHref = '#get-started',
       onSignInClick,
       onCtaClick,
@@ -205,7 +201,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
                 <div className="text-2xl">
                   {logo}
                 </div>
-                <span className="hidden font-bold text-xl sm:inline-block">shadcn.io</span>
+                <span className="hidden font-bold text-xl sm:inline-block">Openai-chatbot</span>
               </button>
               {/* Navigation menu */}
               {!isMobile && (
@@ -244,7 +240,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
             >
               {signInText}
             </Button>
-            <Button
+            {/* <Button
               size="sm"
               className="text-sm font-medium px-4 h-9 rounded-md shadow-sm"
               onClick={(e) => {
@@ -253,7 +249,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
               }}
             >
               {ctaText}
-            </Button>
+            </Button> */}
           </div>
         </div>
       </header>
