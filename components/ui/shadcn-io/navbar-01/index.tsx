@@ -240,7 +240,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
             >
               {signInText}
             </Button>
-            {/* <Button
+            {/*   <Button
               size="sm"
               className="text-sm font-medium px-4 h-9 rounded-md shadow-sm"
               onClick={(e) => {

@@ -46,7 +46,7 @@ export default function Home() {
           const response = await fetch('/api/chat', {
             method: 'POST',
             body: JSON.stringify({
-              messages: input
+              message: input
             })
           });
           
