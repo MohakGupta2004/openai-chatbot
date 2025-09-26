@@ -1,8 +1,10 @@
+import { addTwoNumbers, getWeatherTool, webHandler } from "@/lib/tools";
 import { Agent, AgentInputItem, Runner } from "@openai/agents";
 
 const agent = new Agent({
   name: "Assistant",
   instructions: "You are assistent",
+  tools: [getWeatherTool, addTwoNumbers, webHandler],
   model: "gpt-4o-mini",
 });
 
