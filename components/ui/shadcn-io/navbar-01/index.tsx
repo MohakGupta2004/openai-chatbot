@@ -15,6 +15,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { SignOutButton } from '@clerk/nextjs';
 
 // Simple logo component for the navbar
 const Logo = (props: React.SVGAttributes<SVGElement>) => {
@@ -201,7 +202,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
                 <div className="text-2xl">
                   {logo}
                 </div>
-                <span className="hidden font-bold text-xl sm:inline-block">Openai-chatbot</span>
+                <span className="hidden font-bold text-xl sm:inline-block">Sysreturn</span>
               </button>
               {/* Navigation menu */}
               {!isMobile && (
@@ -230,17 +231,6 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
           {/* Right side */}
           <div className="flex items-center gap-3">
             <Button
-              variant="ghost"
-              size="sm"
-              className="text-sm font-medium hover:bg-accent hover:text-accent-foreground"
-              onClick={(e) => {
-                e.preventDefault();
-                if (onSignInClick) onSignInClick();
-              }}
-            >
-              {signInText}
-            </Button>
-            {/*   <Button
               size="sm"
               className="text-sm font-medium px-4 h-9 rounded-md shadow-sm"
               onClick={(e) => {
@@ -248,8 +238,8 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
                 if (onCtaClick) onCtaClick();
               }}
             >
-              {ctaText}
-            </Button> */}
+              <SignOutButton/>
+            </Button>
           </div>
         </div>
       </header>

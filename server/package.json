@@ -1,0 +1,14 @@
+{
+  "name": "server",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts",
+    "dev:worker": "bun run --hot src/worker.js"
+  },
+  "dependencies": {
+    "bullmq": "^5.58.9",
+    "hono": "^4.9.9"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}

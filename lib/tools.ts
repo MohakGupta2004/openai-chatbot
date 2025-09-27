@@ -37,8 +37,6 @@ export const webHandler = tool({
         userInput: z.string()
     }),
     async execute({ link,userInput }) {
-        console.log("Control reached")
-
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
         await page.goto(link);

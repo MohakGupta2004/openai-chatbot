@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { PaperclipIcon, SendIcon } from 'lucide-react'
+import { Upload } from './Upload'
 
 export default function ChatInput({ clickHandler }: {
     clickHandler: (input: string) => void
@@ -18,8 +19,8 @@ export default function ChatInput({ clickHandler }: {
             <div>
                 <div className="border-t bg-gray-100 px-4 py-3 dark:bg-gray-800">
                     <div className="flex items-center rounded-full bg-white shadow-sm dark:bg-gray-950">
-                        <div className="flex items-center rounded-full bg-white px-4 text-gray-400 shadow-sm dark:bg-gray-950 dark:text-gray-400">
-                            <PaperclipIcon className="h-5 w-5" />
+                        <div className="flex items-center rounded-full bg-white px-4 text-gray-400 dark:bg-gray-950 dark:text-gray-400">
+                            <Upload/>
                         </div>
                         <Input
                             type="text"
