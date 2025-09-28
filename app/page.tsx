@@ -2,7 +2,7 @@
 import ChatInput from '@/components/ChatInput';
 import MarkdownRenderer from '@/components/MarkDownRenderer';
 import { Navbar01 } from '@/components/ui/shadcn-io/navbar-01';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 export enum MessageType {
   Sender = "sender",
   Receiver = "Receiver"
@@ -11,8 +11,44 @@ type Message = {
   type: MessageType
   content: string
 }
+
+
 export default function Home() {
   const [messages, setMessage] = useState<Array<Message>>([])
+  const [file, setFile] = useState<File>()
+  const fileRef = useRef<File | undefined>(undefined)
+  async function apiCall(input: string) {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      body: JSON.stringify({
+        message: input
+      })
+    });
+
+    const reader = response.body?.getReader()
+    const decoder = new TextDecoder("utf-8")
+    if (!reader) return;
+
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break;
+      const chunk = decoder.decode(value, { stream: true })
+
+      setMessage((prev) => {
+        const lastRole = prev[prev.length - 1];
+        if (lastRole.type == MessageType.Receiver) {
+          return [...prev.slice(0, -1), {
+            type: MessageType.Receiver,
+            content: lastRole.content + chunk
+          }]
+        }
+        return [...prev, {
+          type: MessageType.Receiver,
+          content: chunk
+        }]
+      })
+    }
+  }
   return (
     <div className='h-screen overflow-y-auto no-scrollbar'>
       {/* NavBar section */}
@@ -38,44 +74,33 @@ export default function Home() {
       </div>
       {/* Chat input box */}
       <div className='fixed bottom-0 w-full'>
-        <ChatInput clickHandler={async (input: string)=>{
-          setMessage((prev)=>[...prev, {
+        <ChatInput clickHandler={async (input: string, file?: File) => {
+          fileRef.current = file // Store in ref for immediate access
+          setMessage((prev) => [...prev, {
             type: MessageType.Sender,
             content: input
           }])
-          const response = await fetch('/api/chat', {
-            method: 'POST',
-            body: JSON.stringify({
-              message: input
-            })
-          });
-          
-          const reader = response.body?.getReader()
-          const decoder = new TextDecoder("utf-8")
-          let assistentMsg = ""
-          if(!reader) return;
+          // Use fileRef.current to get the latest file value
+          // Route based on whether file is uploaded or not
+          if (file) {
+            // File is uploaded, use /query endpoint
+            console.log("File uploaded, using /query endpoint:", file.name)
+            const response = await fetch('http://localhost:5000/query', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                question: input
+              })
+            });
 
-          while(true){
-            const {done, value} = await reader.read()
-            if(done) break;
-            const chunk = decoder.decode(value, {stream: true})
-            assistentMsg+=chunk 
-            setMessage((prev)=>{
-              const lastRole = prev[prev.length-1];
-              if(lastRole.type == MessageType.Receiver){
-                assistentMsg+=chunk
-                return [...prev.slice(0,-1), {
-                  type: MessageType.Receiver,
-                  content: lastRole.content+chunk
-                }]
-              }
-              return [...prev, {
-                type: MessageType.Receiver,
-                content: chunk
-              } ]
-            })
+            const result = await response.json()
+            apiCall(JSON.stringify(result))
+          } else {
+            apiCall(input)
           }
-        }}/>
+        }} />
       </div>
     </div>
   );

@@ -6,21 +6,26 @@ import { PaperclipIcon, SendIcon } from 'lucide-react'
 import { Upload } from './Upload'
 
 export default function ChatInput({ clickHandler }: {
-    clickHandler: (input: string) => void
+    clickHandler: (input: string, file?: File) => void
 }) {
     const [input, setInput] = useState<string>("")
+    const [file, setFile] = useState<File | undefined>()
     const sendMessage = () => {
         if (!input) return;
-        clickHandler(input)
+        clickHandler(input, file)
         setInput("")
     }
+
     return (
         <div>
             <div>
                 <div className="border-t bg-gray-100 px-4 py-3 dark:bg-gray-800">
                     <div className="flex items-center rounded-full bg-white shadow-sm dark:bg-gray-950">
                         <div className="flex items-center rounded-full bg-white px-4 text-gray-400 dark:bg-gray-950 dark:text-gray-400">
-                            <Upload/>
+                            <Upload isFileTrue={(file)=>{
+                                console.log("File received in ChatInput:", file)
+                                setFile(file)
+                            }}/>
                         </div>
                         <Input
                             type="text"

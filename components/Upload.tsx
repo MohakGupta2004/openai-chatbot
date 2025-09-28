@@ -12,7 +12,9 @@ import {
 import { PaperclipIcon } from "lucide-react"
 import FileUpload01 from "./file-upload-01"
 import { useState } from "react"
-export function Upload() {
+export function Upload({isFileTrue}:{
+  isFileTrue:(file: File)=>void
+}) {
   const [file, setFile] = useState<Array<File>>()
   const [open, setOpen] = useState(false)
   return (
@@ -30,7 +32,10 @@ export function Upload() {
             const result = await fetch('http://localhost:5000/upload', {
               method: 'POST',
               body: formData
-            })
+            }) 
+            console.log(result)
+
+            isFileTrue(file[0])
 
          }}/> 
         </DialogContent>
